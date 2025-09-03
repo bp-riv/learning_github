@@ -19,7 +19,9 @@ jobs:
         run: |
           echo "Latest update: ${{ steps.data_now.outputs.data_now }}" >> README.md
       - name: Commit
-        uses: stefanzweck/commit-action@v1
-        with:
-          commit_message: "Updating README.md using automatic workflow"
-          push_all: "true"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Aggiornato il README con l'ultima esecuzione del workflow"
+          git push
