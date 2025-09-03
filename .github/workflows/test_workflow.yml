@@ -1,10 +1,27 @@
-name: My first workflow
+name: Update the README.md
 
-on: [push]
+on:
+    push:
+        branches:
+         - main
+
 
 jobs:
-    hello:
-        runs-on: ubuntu-latest
-        steps:
-        - name: "Execute a simple command"
-          run: echo "Hello from the first workflow"
+    update-readme:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Get current date and time
+          id: data_now
+          run: echo "data_now=$(date + '%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+        - name: Update the README.md
+          run: echo "Latest update: ${{ steps.data_now.GITHUB_OUTPUT }}" >> README.md
+
+        - name: Commit
+          uses: stefanzweck/commit-action@v1
+          with:
+            commit_message: "Updating README.md using automatic workflow"
+            push_all : "true"
