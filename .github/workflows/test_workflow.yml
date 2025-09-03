@@ -1,27 +1,26 @@
 name: Update the README.md
 
 on:
-    push:
-        branches:
-         - main
-
+  push:
+    branches:
+      - main
 
 jobs:
-    update-readme:
+  update-readme:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Get current date and time
-          id: data_now
-          run: echo "data_now=$(date + '%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+      - name: Get current date and time
+        id: data_now
+        run: echo "data_now=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
 
-        - name: Update the README.md
-          run: echo "Latest update: ${{ steps.data_now.GITHUB_OUTPUT }}" >> README.md
+      - name: Update the README.md
+        run: echo "Latest update: ${{ steps.data_now.outputs.data_now }}" >> README.md
 
-        - name: Commit
-          uses: stefanzweck/commit-action@v1
-          with:
-            commit_message: "Updating README.md using automatic workflow"
-            push_all : "true"
+      - name: Commit
+        uses: stefanzweck/commit-action@v1
+        with:
+          commit_message: "Updating README.md using automatic workflow"
+          push_all: "true"
