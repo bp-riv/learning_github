@@ -4,7 +4,7 @@ from mypackage.main import hello
 class Test0(unittest.TestCase):
 
     def test_0(self):
-        self.assertTrue(True)
+        self.assertTrue(False)
 
 
 class Test1(unittest.TestCase):
