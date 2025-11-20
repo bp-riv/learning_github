@@ -1,0 +1,45 @@
+#########################################
+# Setup file for the package building
+#########################################
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["mypackage"]
+
+[project]
+name = "mypackage"
+version = "0.0.2"
+authors = [
+  { name="None0", email="None0@email.com"},
+  { name="None1", email="None1@email.com"},
+]
+license = { text = "MIT" }
+
+
+description = "TODO"
+readme = "README.md"
+requires-python = ">= 3.12"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+# Dependencies installed when riva2a is installed using pip
+dependencies = [
+  # For the moment, use *only* the conda environment.yml
+  # when distribute to user, add here the minimal packages
+  # Basic Scientific Libraries
+  # "numpy>=1.26.4",
+  # "pandas>=2.2.2",
+  # "matplotlib>=3.9.0",
+  # "scipy>=1.13.0",
+  # "scikit-learn",
+  # "statsmodels",
+  # "seaborn",
+  # Production of Excel output
+  # "openpyxl"
+]

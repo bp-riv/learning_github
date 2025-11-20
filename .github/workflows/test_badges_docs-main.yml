@@ -1,0 +1,63 @@
+name: Docs-Test-Badges (auto on main)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Setup Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          miniconda-version: "latest"
+          python-version: "3.13.7"
+          activate-environment: github_env
+          environment-file: environment.yml
+          channels: conda-forge
+          conda-remove-defaults: "true"
+
+
+      - name: Run tests
+        id: run_tests_and_make_docs
+        continue-on-error: true
+        run: |
+          conda init bash
+          source ~/.bashrc
+          conda activate github_env
+          pip install pylint
+          pip install pytest-json
+          pip install pytest-json-report
+          pip install -e .
+          python -m pylint mypackage > ./pylint_report.txt || true
+          pytest -s --cov=mypackage --cov-report json:./coverage_report.json --json-report --json-report-file=./tests_report.json
+
+
+      - name: Coverage and Test Badge Creation
+        run: python .github/badges/generate_cov_and_test_badges.py
+
+
+      - name: Notebooks Badge Creation
+        run: python .github/badges/generate_notebook_badge.py
+
+
+      - name: Pylint Badge Creation
+        run: python .github/badges/generate_pylint_badge.py
+
+
+      - name: Just a message
+        run: echo "Proceeding!"
+
+      - name: Check Test Status and exit with 1 in case of failures
+        run: |
+          if grep -q "failing" test_success.txt; then
+            exit 1 
+          fi
