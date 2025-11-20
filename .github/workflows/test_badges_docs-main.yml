@@ -56,6 +56,17 @@ jobs:
       - name: Just a message
         run: echo "Proceeding!"
 
+
+
+      - name: Commit all Badges to Repository
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull
+          git add .github/badges/*-badge.svg
+          git commit -m "Badges: updating coverage and test" || true 
+          git push
+
       - name: Check Test Status and exit with 1 in case of failures
         run: |
           if grep -q "failing" test_success.txt; then
